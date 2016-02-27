@@ -10,11 +10,18 @@ df['Status'] = df['Class'].map(d)
 del df['Class']
 
 #create new dict for saving correlation between column and Cancer
-new_dict = {}
+corr_dict = {}
+corr_list = []
 for i in df.columns:
-    corr = df.Status.corr(df[i])
-    new_dict[i] = corr
+    if i != 'Status':
+        corr = df.Status.corr(df[i])
+        corr_list.append(corr)
+        corr_dict[i] = corr
+
+del df['Status']
+corr_df = pd.DataFrame(data={'correlations': np.array(corr_list)}, index=df.columns)
+print corr_df.describe()
 
 #saving pearson correlation in a numpy file for future use
-np.save('processed_data/correlation.npy', new_dict)
+np.save('processed_data/correlation.npy', corr_dict)
 
