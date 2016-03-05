@@ -3,31 +3,23 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 
-
+#this is my first try for predecting
 df = pd.read_pickle('processed_data/dataframe.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
-print len(labels)
-print len(features)
-print labels
-'''
+
 #this choose 5 sample data for test and training data
 kf = KFold(len(features), n_folds=5, shuffle=True)
 
-classifier = KNeighborsClassifier(n_neighbors=1)
+classifier = KNeighborsClassifier(n_neighbors=2)
 
 means = []
-for training,testing in kf:
-    # We learn a model for this fold with `fit` and then apply it to the
-    # testing data with `predict`:
+for training, testing in kf:
     classifier.fit(features[training], labels[training])
     prediction = classifier.predict(features[testing])
+    mean = np.mean(prediction == labels[testing])
+    print 'Fold predicting accuracy mean is: {:.1%}'.format(mean)
+    means.append(mean)
+print('Total Mean accuracy is: {:.1%}'.format(np.mean(means)))
 
-    # np.mean on an array of booleans returns fraction
-    # of correct decisions for this fold:
-    curmean = np.mean(prediction == labels[testing])
-    means.append(curmean)
-print('Mean accuracy: {:.1%}'.format(np.mean(means)))
-
-'''
