@@ -8,7 +8,7 @@ df = pd.read_pickle('processed_data/dataframe.pd')
 d = {'non-relapse': False, 'relapse': True}
 df['Status'] = df['Class'].map(d)
 del df['Class']
-
+df.to_pickle('processed_data/dataframe.pd')
 #create new dict for saving correlation between column and Cancer
 corr_dict = {}
 corr_list = []
