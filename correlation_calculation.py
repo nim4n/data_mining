@@ -5,10 +5,13 @@ import pandas as pd
 df = pd.read_pickle('processed_data/dataframe.pd')
 
 #change catogorical data column to boolean
-d = {'non-relapse': False, 'relapse': True}
-df['Status'] = df['Class'].map(d)
-del df['Class']
-df.to_pickle('processed_data/dataframe.pd')
+try:
+    d = {'non-relapse': False, 'relapse': True}
+    df['Status'] = df['Class'].map(d)
+    del df['Class']
+    df.to_pickle('processed_data/dataframe.pd')
+except Exception as e:
+    print e
 #create new dict for saving correlation between column and Cancer
 corr_dict = {}
 corr_list = []
