@@ -20,8 +20,9 @@ for i in df.columns:
 
 del df['Status']
 corr_df = pd.DataFrame(data={'correlations': np.array(corr_list)}, index=df.columns)
+corr_df.to_pickle('processed_data/correlation_dataframe.pd')
 print corr_df.describe()
 
 #saving pearson correlation in a numpy file for future use
-np.save('processed_data/correlation.npy', corr_dict)
+#np.save('processed_data/correlation.npy', corr_dict)
 
