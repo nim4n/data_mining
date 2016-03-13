@@ -4,7 +4,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
-
+from sklearn.feature_selection import VarianceThreshold
 
 df = pd.read_pickle('processed_data/correlation_dataframe.pd')
 labels = df["Status"].values
@@ -22,3 +22,8 @@ for training, testing in kf:
     print 'Fold predicting accuracy mean is: {:.1%}'.format(mean)
     means.append(mean)
 print('Total Mean accuracy is: {:.1%}'.format(np.mean(means)))
+
+
+sel = VarianceThreshold(threshold=(.8 * (1 - .8)))
+new_features = sel.fit_transform(features)
+print len(features[0]), len(new_features[0])
