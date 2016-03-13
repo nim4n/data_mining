@@ -23,7 +23,3 @@ for training, testing in kf:
     means.append(mean)
 print('Total Mean accuracy is: {:.1%}'.format(np.mean(means)))
 
-
-sel = VarianceThreshold(threshold=(.8 * (1 - .8)))
-new_features = sel.fit_transform(features)
-print len(features[0]), len(new_features[0])
