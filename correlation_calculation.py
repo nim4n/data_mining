@@ -5,13 +5,10 @@ import pandas as pd
 df = pd.read_pickle('processed_data/dataframe.pd')
 
 #change catogorical data column to boolean
-try:
-    d = {'non-relapse': False, 'relapse': True}
-    df['Status'] = df['Class'].map(d)
-    del df['Class']
-    df.to_pickle('processed_data/dataframe.pd')
-except Exception as e:
-    print e
+d = {'non-relapse': False, 'relapse': True}
+df['Status'] = df['Class'].map(d)
+del df['Class']
+df.to_pickle('processed_data/dataframe.pd')
 #create new dict for saving correlation between column and Cancer
 corr_dict = {}
 corr_list = []
@@ -23,9 +20,8 @@ for i in df.columns:
 
 del df['Status']
 corr_df = pd.DataFrame(data={'correlations': np.array(corr_list)}, index=df.columns)
-corr_df.to_pickle('processed_data/correlation_dataframe.pd')
 print corr_df.describe()
 
 #saving pearson correlation in a numpy file for future use
-#np.save('processed_data/correlation.npy', corr_dict)
+np.save('processed_data/correlation.npy', corr_dict)
 
