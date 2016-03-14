@@ -11,6 +11,9 @@ features = df[list(df.columns)].values
 classifier = svm.SVC()
 classifier.fit(features, labels)
 kf = KFold(len(features), n_folds=5, shuffle=True)
+print len(labels)
+
+
 
 
 means = []
