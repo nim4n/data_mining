@@ -5,7 +5,7 @@ df = pd.read_pickle('processed_data/dataframe.pd')
 corr_dict = np.load('processed_data/correlation.npy').item()
 count = 0
 for data in corr_dict:
-    if corr_dict[data] > 0.10:
+    if corr_dict[data] > 0.30:
         count += 1
         print count
     else:

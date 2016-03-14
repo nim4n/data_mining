@@ -24,3 +24,17 @@ for training, testing in kf:
     print 'Fold predicting accuracy mean is: {:.1%}'.format(mean)
     means.append(mean)
 print('Total Mean accuracy is: {:.1%}'.format(np.mean(means)))
+
+
+'''
+output with correlation greater than 0.1 :
+
+Fold predicting accuracy mean is: 37.5%
+Fold predicting accuracy mean is: 56.2%
+Fold predicting accuracy mean is: 56.2%
+Fold predicting accuracy mean is: 60.0%
+Fold predicting accuracy mean is: 46.7%
+Total Mean accuracy is: 51.3%
+
+
+'''
