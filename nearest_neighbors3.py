@@ -10,7 +10,7 @@ df = pd.read_pickle('processed_data/correlation_dataframe.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
-kf = KFold(len(features), n_folds=10, shuffle=True)
+kf = KFold(len(features), n_folds=5, shuffle=True)
 classifier = KNeighborsClassifier(n_neighbors=7)
 classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
