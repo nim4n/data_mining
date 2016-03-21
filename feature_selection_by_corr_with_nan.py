@@ -5,7 +5,7 @@ df = pd.read_pickle('processed_data/dataframe_by_std.pd')
 corr_dict = np.load('processed_data/correlation_with_nan.npy').item()
 count = 0
 for data in corr_dict:
-    if corr_dict[data] > 0.25:
+    if corr_dict[data] > 0.32:
         count += 1
         print count
     else:
@@ -14,4 +14,4 @@ for data in corr_dict:
         except:
             print data
 
-df.to_pickle('processed_data/correlation_dataframe_with_nan_0.25.pd')
+df.to_pickle('processed_data/correlation_dataframe_with_nan_0.32.pd')

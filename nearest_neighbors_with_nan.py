@@ -8,21 +8,25 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import Imputer
 
 imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
-df = pd.read_pickle('processed_data/correlation_dataframe_with_nan_0.25.pd')
+df = pd.read_pickle('processed_data/correlation_dataframe_with_nan_0.32.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
-kf = KFold(len(features), n_folds=5, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=7)
+print len(features[0])
+imp.fit(features)
+features = imp.transform(features)
+sel = VarianceThreshold(threshold=(.005))
+features = sel.fit_transform(features)
+print len(features[0])
+kf = KFold(len(features), n_folds=4, shuffle=True)
+classifier = KNeighborsClassifier(n_neighbors=3)
 classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
 means = []
 for training, testing in kf:
     imp.fit(features[training])
-    training_imp = imp.transform(features[training])
-    testing_imp = imp.transform(features[testing])
-    classifier.fit(training_imp, labels[training])
-    prediction = classifier.predict(testing_imp)
+    classifier.fit(features[training], labels[training])
+    prediction = classifier.predict(features[testing])
     mean = np.mean(prediction == labels[testing])
     print 'Fold predicting accuracy mean is: {:.1%}'.format(mean)
     means.append(mean)
