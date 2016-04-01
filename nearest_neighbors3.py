@@ -6,12 +6,12 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 from sklearn.feature_selection import VarianceThreshold
 
-df = pd.read_pickle('processed_data/correlation_dataframe.pd')
+df = pd.read_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
-kf = KFold(len(features), n_folds=5, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=7)
+kf = KFold(len(features), n_folds=7, shuffle=True)
+classifier = KNeighborsClassifier(n_neighbors=5)
 classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
 means = []

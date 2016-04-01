@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 from sklearn.feature_selection import VarianceThreshold
-'''
+
 df = pd.read_pickle('processed_data/dataframe_by_std.pd')
 labels = df["Status"].values
 
@@ -38,9 +38,7 @@ for column in df.columns:
 df.to_pickle('processed_data/rank_classification_dataframe.pd')
 print count
 
-'''
-df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
-print df.shape
+
 corr_df = df.corr()
 removed_columns = []
 exist_columns = []
@@ -50,18 +48,21 @@ for column in corr_df:
         max_column_name = corr_df[column].idxmax()
         if max_column_name in removed_columns:
             corr_df.drop(max_column_name, inplace=True)
-            print max_column_name
             max_column_name = corr_df[column].idxmax()
-            print max_column_name
         max_corr = corr_df[column].max()
-        if max_corr > 0.80 and not column in exist_columns:
-            print max_corr
+        if max_corr > 0.90 and not column in exist_columns:
             del df[column]
             removed_columns.append(column)
             exist_columns.append(max_column_name)
-            print '__________________________________'
     except Exception as e:
-        print e
-        print corr_df[column]
+        pass
+df['Status'] = status
+for column in df.columns:
+    if column != 'Status':
+        corr = df.Status.corr(df[column])
+        if corr > 0.15:
+            print corr
+        else:
+            del df[column]
 df.to_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
 print df.shape
