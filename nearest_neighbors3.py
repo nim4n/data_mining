@@ -11,7 +11,7 @@ labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
 kf = KFold(len(features), n_folds=7, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=5)
+classifier = KNeighborsClassifier(n_neighbors=1)
 classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
 means = []
