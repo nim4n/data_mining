@@ -10,7 +10,7 @@ df = pd.read_pickle('processed_data/dataframe_by_std.pd')
 labels = df["Status"].values
 
 kf = KFold(len(labels), n_folds=5, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=1)
+classifier = KNeighborsClassifier(n_neighbors=2)
 status = df['Status']
 del df['Status']
 count = 0
@@ -26,7 +26,7 @@ for column in df.columns:
             mean = np.mean(prediction == labels[testing])
             means.append(mean)
         total_mean = np.mean(means)
-        if total_mean > 0.59:
+        if total_mean > 0.589:
             count += 1
             print('Total Mean accuracy is: {:.1%}'.format(total_mean))
         else:
