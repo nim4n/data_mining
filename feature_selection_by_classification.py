@@ -26,7 +26,7 @@ for column in df.columns:
             mean = np.mean(prediction == labels[testing])
             means.append(mean)
         total_mean = np.mean(means)
-        if total_mean > 0.60:
+        if total_mean > 0.50:
             count += 1
             print('Total Mean accuracy is: {:.1%}'.format(total_mean))
         else:
