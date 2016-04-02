@@ -60,7 +60,7 @@ df['Status'] = status
 for column in df.columns:
     if column != 'Status':
         corr = df.Status.corr(df[column])
-        if corr > 0.15:
+        if corr > 0.14:
             print corr
         else:
             del df[column]
