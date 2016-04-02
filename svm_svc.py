@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import svm
 from sklearn.cross_validation import KFold
 
-df = pd.read_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
+df = pd.read_pickle('processed_data/rank_svm_classification_dataframe_remove_relation.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
