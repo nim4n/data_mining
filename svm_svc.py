@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import svm
 from sklearn.cross_validation import KFold
 
-df = pd.read_pickle('processed_data/correlation_dataframe.pd')
+df = pd.read_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
 labels = df["Status"].values
 del df['Status']
 features = df[list(df.columns)].values
@@ -35,6 +35,14 @@ Fold predicting accuracy mean is: 56.2%
 Fold predicting accuracy mean is: 60.0%
 Fold predicting accuracy mean is: 46.7%
 Total Mean accuracy is: 51.3%
+
+
+Fold predicting accuracy mean is: 92.9%
+Fold predicting accuracy mean is: 100.0%
+Fold predicting accuracy mean is: 96.3%
+Fold predicting accuracy mean is: 92.6%
+Fold predicting accuracy mean is: 85.2%
+Total Mean accuracy is: 93.4%
 
 
 '''
