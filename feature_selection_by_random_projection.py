@@ -18,7 +18,7 @@ print features.shape
 
 
 kf = KFold(len(features), n_folds=7, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=2)
+classifier = KNeighborsClassifier(n_neighbors=1)
 classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
 means = []
