@@ -6,7 +6,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 from sklearn.feature_selection import VarianceThreshold
 
-df = pd.read_pickle('processed_data/dataframe_by_std.pd')
+df = pd.read_pickle('processed_data/dataframe_by_pre_process.pd')
 labels = df["Status"].values
 
 kf = KFold(len(labels), n_folds=5, shuffle=True)
@@ -26,7 +26,7 @@ for column in df.columns:
             mean = np.mean(prediction == labels[testing])
             means.append(mean)
         total_mean = np.mean(means)
-        if total_mean > 0.67:
+        if total_mean > 0.64:
             count += 1
             print('Total Mean accuracy is: {:.1%}'.format(total_mean))
         else:
