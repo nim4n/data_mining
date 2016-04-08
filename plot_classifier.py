@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn import random_projection
 from sklearn.pipeline import Pipeline
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
@@ -12,6 +13,14 @@ labels = df["Status"].values
 del df['Status']
 #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
 features = df[list(df.columns)].values
+
+pca = PCA(n_components=2)
+print features[0]
+pca.fit(np.array(features[0]))
+PCA(copy=True, n_components=2, whiten=False)
+print(pca.explained_variance_ratio_)
+
+'''
 print features.shape
 #transformer = random_projection.GaussianRandomProjection(n_components=82)
 #features = transformer.fit_transform(features)
@@ -30,5 +39,4 @@ for training, testing in kf:
     print 'Fold predicting accuracy mean is: {:.1%}'.format(mean)
     means.append(mean)
 print('Total Mean accuracy is: {:.1%}'.format(np.mean(means)))
-
-
+'''
