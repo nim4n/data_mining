@@ -10,6 +10,7 @@ from sklearn.feature_selection import VarianceThreshold
 df = pd.read_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
 labels = df["Status"].values
 del df['Status']
+print df.columns
 #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
 features = df[list(df.columns)].values
 print features.shape
