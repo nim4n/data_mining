@@ -18,16 +18,6 @@ for column in df.columns:
             remove_outlier = (df[column] < (2 * std)) & (df[column] > (-2 * std))
             df[column][~remove_outlier] = 20
 
-status = df['Status']
-del df['Status']
-df = np.log10(df)
-df['Status'] = status
-for column in df.columns:
-    if column != 'Status':
-        mean = df[column].mean()
-        std = df[column].std()
-        print mean, std
-        df[column] = (df[column] - mean) / std
 
-df.to_pickle('processed_data/dataframe_by_std.pd')
+df.to_pickle('processed_data/pre_process_dataframe.pd')
 

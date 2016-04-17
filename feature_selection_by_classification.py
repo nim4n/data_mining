@@ -26,7 +26,7 @@ for column in df.columns:
             mean = np.mean(prediction == labels[testing])
             means.append(mean)
         total_mean = np.mean(means)
-        if total_mean > 0.64:
+        if total_mean > 0.77:
             count += 1
             print('Total Mean accuracy is: {:.1%}'.format(total_mean))
         else:
@@ -57,6 +57,7 @@ for column in corr_df:
     except Exception as e:
         pass
 df['Status'] = status
+'''
 for column in df.columns:
     if column != 'Status':
         corr = df.Status.corr(df[column])
@@ -64,5 +65,6 @@ for column in df.columns:
             print corr
         else:
             del df[column]
+'''
 df.to_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
 print df.shape
