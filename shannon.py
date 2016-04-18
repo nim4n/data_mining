@@ -75,7 +75,7 @@ status = df['Status']
 del df['Status']
 chunks = [df.columns[40*i:40*(i+1)] for i in range(len(df.columns)/40 + 1)]
 df['Marker'] = marker
-print len(df.column)
+print len(df.columns)
 #entropy dataframe
 entropy_df = df.loc[:].apply(shannon, axis=0)
 #dataframe_generator(df)
