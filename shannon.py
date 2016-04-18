@@ -78,7 +78,7 @@ df['Marker'] = marker
 print len(df.columns)
 #entropy dataframe
 entropy_df = df.loc[:].apply(shannon, axis=0)
-#dataframe_generator(df)
+dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
 
 '''
