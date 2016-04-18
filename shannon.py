@@ -75,13 +75,13 @@ status = df['Status']
 del df['Status']
 chunks = [df.columns[40*i:40*(i+1)] for i in range(len(df.columns)/40 + 1)]
 df['Marker'] = marker
-
+print len(chunks)
 #entropy dataframe
 entropy_df = df.loc[:].apply(shannon, axis=0)
 #dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
 
-
+'''
 for count, chunk in enumerate(chunks):
 
     result = calculate_rank(chunk)
@@ -89,7 +89,7 @@ for count, chunk in enumerate(chunks):
     f.write('{0}     {1}\n'.format(count, result))
     f.close()
     print count
-
+'''
 
 
 
