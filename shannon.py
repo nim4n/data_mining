@@ -2,6 +2,7 @@ import math
 import itertools
 import pandas as pd
 import numpy as np
+import datetime
 
 
 def shannon(col):
@@ -54,12 +55,13 @@ def dataframe_generator(df):
         counter = 0
         for col2 in df.columns:
             if col1 != col2 and ((col1, col2) not in pair_list):
-                print count, counter
+                if counter % 1000 == 0:
+                    print count, counter
+                    print datetime.datetime.now()
                 counter += 1
                 pair_list.append((col2, col1))
                 result[col1][col2] = shannon_normolizer(col1, col2)
-        print count
-    new_df = pd.DataFrame.from_dict(data=result)
+        new_df = pd.DataFrame.from_dict(data=result)
     new_df.to_pickle('processed_data/entropy.pd')
 
 
@@ -71,13 +73,14 @@ marker = df['Status'].map(d)
 
 status = df['Status']
 del df['Status']
-chunks = [df.columns[30*i:30*(i+1)] for i in range(len(df.columns)/30 + 1)]
+chunks = [df.columns[40*i:40*(i+1)] for i in range(len(df.columns)/40 + 1)]
 df['Marker'] = marker
 
 #entropy dataframe
 entropy_df = df.loc[:].apply(shannon, axis=0)
 #dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
+
 
 for count, chunk in enumerate(chunks):
 
