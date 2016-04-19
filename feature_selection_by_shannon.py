@@ -3,7 +3,6 @@ import itertools
 import pandas as pd
 import numpy as np
 import datetime
-from pymongo import MongoClient
 
 
 def shannon(col):
@@ -44,38 +43,49 @@ def calculate_rank(chunk):
     return total_marker - total_with_each_other
 
 
-def dataframe_generator(df):
+def marker_dataframe_generator(df):
     #create dataframe base on shannon rank of data
-    pair_list = []
     count = 0
+    result = {'marker': {}}
     for col1 in df.columns:
-        if not reserve.find_one({col1: True}):
-            result = {}
-            reserve.insert({col1: True})
+        count += 1
+        result['marker'][col1] = shannon_normolizer(col1, 'Marker')
+        print count
+
+    marker_df = pd.DataFrame.from_dict(data=result)
+    marker_df = marker_df.sort(['marker'], ascending=[0])
+    print marker_df.describe()
+    marker_df.to_pickle('processed_data/marker_dataframe.pd')
+
+
+def find_little_entropy(columns):
+    #create dataframe base on shannon rank of data
+    count = 0
+    result = {'total_entropy': {}}
+    pair_list = []
+    for col1 in columns:
+        if col1 != 'Marker':
+            total_entropy = 0
             count += 1
             result[col1] = {}
-            result[col1]['Marker'] = shannon_normolizer(col1, 'Marker')
+            print count, col1
             counter = 0
-            for col2 in df.columns:
-                if col1 != col2 and ((col1, col2) not in pair_list):
+            for col2 in columns:
+                if col1 != col2 and ((col1, col2) not in pair_list) and col2 != 'Marker':
                     if counter % 1000 == 0:
-                        print count, counter
                         print datetime.datetime.now()
                     counter += 1
                     pair_list.append((col2, col1))
-                    result[col1][col2] = shannon_normolizer(col1, col2)
-            final.insert(result)
-            print '___________________________________________________'
+                    caculate_result = shannon_normolizer(col1, col2)
+                    total_entropy += caculate_result
+                    result[col1][col2] = caculate_result
+            result['total_entropy'][col1] = total_entropy
+    lt_entropy_df = pd.DataFrame.from_dict(data=result)
+    lt_entropy_df.sort(['total_entropy'], ascending=[0])
+    print lt_entropy_df.describe()
+    lt_entropy_df.to_pickle('processed_data/lt_entropy_dataframe.pd')
 
 
-
-client = MongoClient('216.158.80.60')
-
-client.datamining.authenticate('admin', 'datamining', mechanism='MONGODB-CR')
-db = client.datamining
-
-reserve = db.reserve
-final = db.final
 
 df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
 d = {True: 2, False: 1}
@@ -87,9 +97,15 @@ chunks = [df.columns[40*i:40*(i+1)] for i in range(len(df.columns)/40 + 1)]
 df['Marker'] = marker
 print len(df.columns)
 #entropy dataframe
-entropy_df = df.loc[:].apply(shannon, axis=0)
-dataframe_generator(df)
+#entropy_df = df.loc[:].apply(entropy, axis=0)
+entropy_df = pd.read_pickle('processed_data/shannon_dataframe.pd')
+#marker_dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
+marker_df = pd.read_pickle('processed_data/marker_dataframe.pd')
+marker_df = marker_df.sort(['marker'], ascending=[0])
+find_little_entropy(marker_df[:200].index.tolist())
+
+
 
 '''
 for count, chunk in enumerate(chunks):
