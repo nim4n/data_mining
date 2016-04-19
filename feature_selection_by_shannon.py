@@ -81,9 +81,18 @@ def find_little_entropy(columns):
                     result[col1][col2] = caculate_result
             result['total_entropy'][col1] = total_entropy
     lt_entropy_df = pd.DataFrame.from_dict(data=result)
-    lt_entropy_df.sort(['total_entropy'], ascending=[0])
+    lt_entropy_df = lt_entropy_df.sort(['total_entropy'], ascending=[1])
     print lt_entropy_df.describe()
     lt_entropy_df.to_pickle('processed_data/lt_entropy_dataframe.pd')
+
+
+def select_feature(lt_entropy_df):
+    lt_entropy_df = lt_entropy_df.sort(['total_entropy'], ascending=[1])
+    selected_df = df[lt_entropy_df[:10].index.tolist()].copy()
+    print selected_df.shape
+    selected_df['Status'] = status
+    print selected_df.shape
+    selected_df.to_pickle('processed_data/feature_by_shannon_dataframe.pd')
 
 
 
@@ -102,8 +111,12 @@ entropy_df = pd.read_pickle('processed_data/shannon_dataframe.pd')
 #marker_dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
 marker_df = pd.read_pickle('processed_data/marker_dataframe.pd')
-marker_df = marker_df.sort(['marker'], ascending=[0])
-find_little_entropy(marker_df[:200].index.tolist())
+#marker_df = marker_df.sort(['marker'], ascending=[0])
+#find_little_entropy(marker_df[:200].index.tolist())
+lt_entropy_df = pd.read_pickle('processed_data/lt_entropy_dataframe.pd')
+
+select_feature(lt_entropy_df)
+
 
 
 

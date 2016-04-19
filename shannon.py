@@ -69,9 +69,9 @@ def dataframe_generator(df):
 
 
 
-client = MongoClient('216.158.80.60')
+client = MongoClient('localhost')
 
-client.datamining.authenticate('admin', 'datamining', mechanism='MONGODB-CR')
+client.datamining.authenticate('admin', 'pass', mechanism='MONGODB-CR')
 db = client.datamining
 
 reserve = db.reserve

@@ -7,15 +7,14 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 from sklearn.feature_selection import VarianceThreshold
 
-df = pd.read_pickle('processed_data/rank_classification_dataframe_remove_relation.pd')
+df = pd.read_pickle('processed_data/feature_by_shannon_dataframe.pd')
 labels = df["Status"].values
 del df['Status']
 print df.columns
 #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
 features = df[list(df.columns)].values
 print features.shape
-#transformer = random_projection.GaussianRandomProjection(n_components=82)
-#features = transformer.fit_transform(features)
+
 print features.shape
 
 
