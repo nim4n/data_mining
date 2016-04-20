@@ -71,7 +71,7 @@ def dataframe_generator(df):
 
 client = MongoClient('localhost')
 
-client.datamining.authenticate('admin', 'pass', mechanism='MONGODB-CR')
+client.datamining.authenticate('admin', 'passk', mechanism='MONGODB-CR')
 db = client.datamining
 
 reserve = db.reserve

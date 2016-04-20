@@ -86,15 +86,22 @@ def find_little_entropy(columns):
     lt_entropy_df.to_pickle('processed_data/lt_entropy_dataframe.pd')
 
 
-def select_feature(lt_entropy_df):
-    lt_entropy_df = lt_entropy_df.sort(['total_entropy'], ascending=[1])
-    selected_df = df[lt_entropy_df[:10].index.tolist()].copy()
+def select_feature(best_entropy_df):
+    best_entropy_df = best_entropy_df.sort(['total_entropy'], ascending=[1])
+    print best_entropy_df
+    selected_df = df[best_entropy_df[:7].index.tolist()].copy()
     print selected_df.shape
     selected_df['Status'] = status
     print selected_df.shape
     selected_df.to_pickle('processed_data/feature_by_shannon_dataframe.pd')
 
-
+def calculate_best_col():
+    best_entropy_df = lt_entropy_df.copy()
+    for col in lt_entropy_df.index.tolist():
+        best_entropy_df.loc[col, 'total_entropy'] = marker_df.loc[col, 'marker'] - lt_entropy_df.loc[col, 'total_entropy']
+    best_entropy_df = best_entropy_df.sort(['total_entropy'], ascending=[0])
+    print best_entropy_df.describe()
+    best_entropy_df.to_pickle('processed_data/total_feature_by_shannon_dataframe.pd')
 
 df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
 d = {True: 2, False: 1}
@@ -104,7 +111,7 @@ status = df['Status']
 del df['Status']
 chunks = [df.columns[40*i:40*(i+1)] for i in range(len(df.columns)/40 + 1)]
 df['Marker'] = marker
-print len(df.columns)
+
 #entropy dataframe
 #entropy_df = df.loc[:].apply(entropy, axis=0)
 entropy_df = pd.read_pickle('processed_data/shannon_dataframe.pd')
@@ -114,8 +121,9 @@ marker_df = pd.read_pickle('processed_data/marker_dataframe.pd')
 #marker_df = marker_df.sort(['marker'], ascending=[0])
 #find_little_entropy(marker_df[:200].index.tolist())
 lt_entropy_df = pd.read_pickle('processed_data/lt_entropy_dataframe.pd')
-
-select_feature(lt_entropy_df)
+best_entropy_df = pd.read_pickle('processed_data/total_feature_by_shannon_dataframe.pd')
+#calculate_best_col()
+select_feature(best_entropy_df)
 
 
 
