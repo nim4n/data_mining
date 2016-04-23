@@ -80,10 +80,10 @@ def find_little_entropy(columns):
                     total_entropy += caculate_result
                     result[col1][col2] = caculate_result
             result['total_entropy'][col1] = total_entropy
-    lt_entropy_df = pd.DataFrame.from_dict(data=result)
-    lt_entropy_df = lt_entropy_df.sort(['total_entropy'], ascending=[1])
-    print lt_entropy_df.describe()
-    lt_entropy_df.to_pickle('processed_data/lt_entropy_dataframe.pd')
+    shannon_nearest_df = pd.DataFrame.from_dict(data=result)
+    shannon_nearest_df = shannon_nearest_df.sort(['total_entropy'], ascending=[1])
+    print shannon_nearest_df.describe()
+    shannon_nearest_df.to_pickle('processed_data/shannon_nearest_entropy_dataframe.pd')
 
 
 def select_feature(best_entropy_df):
@@ -123,19 +123,20 @@ feature_selected_by_classification = [u'120_at', u'1736_at', u'1898_at', u'288_s
        u'39790_at', u'39940_at', u'40069_at', u'40071_at', u'40113_at',
        u'40567_at', u'40841_at', u'41273_at', u'41388_at', u'41468_at',
        u'575_s_at', u'755_at']
+
 #entropy dataframe
 #entropy_df = df.loc[:].apply(entropy, axis=0)
-#entropy_df = pd.read_pickle('processed_data/shannon_dataframe.pd')
+entropy_df = pd.read_pickle('processed_data/shannon_dataframe.pd')
 #marker_dataframe_generator(df)
 #entropy_df.to_pickle('processed_data/shannon_dataframe.pd')
-#marker_df = pd.read_pickle('processed_data/marker_dataframe.pd')
+marker_df = pd.read_pickle('processed_data/marker_dataframe.pd')
 #marker_df = marker_df.sort(['marker'], ascending=[0])
 #find_little_entropy(marker_df[:200].index.tolist())
 #lt_entropy_df = pd.read_pickle('processed_data/lt_entropy_dataframe.pd')
 #best_entropy_df = pd.read_pickle('processed_data/total_feature_by_shannon_dataframe.pd')
 #calculate_best_col()
 #select_feature(best_entropy_df)
-
+find_little_entropy(feature_selected_by_classification)
 
 
 
