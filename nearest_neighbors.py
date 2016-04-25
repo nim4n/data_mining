@@ -22,17 +22,20 @@ feature_selected_by_classification = [u'120_at', u'1736_at', u'1898_at', u'32109
                                       u'39940_at', u'40069_at', u'40071_at', u'40113_at', u'40567_at',
                                       u'40841_at', u'41388_at', u'41468_at', u'575_s_at', 'Status']
 '''
-
-feature_selected_by_classification = [u'1898_at', u'32166_at', u'32314_g_at', u'32780_at', u'33371_s_at',
-                                      u'33891_at', u'34162_at', u'34407_at', u'34775_at', u'35177_at',
-                                      u'35742_at', u'35803_at', u'36040_at', u'36159_s_at', u'36192_at',
-                                      u'36627_at', u'36659_at', u'36792_at', u'37225_at', u'37230_at',
-                                      u'37366_at', u'37630_at', u'37639_at', u'37716_at',  u'33412_at',
-                                      u'37958_at', u'38028_at', u'38047_at', u'38396_at', u'38717_at',
-                                      u'38772_at', u'39099_at', u'39243_s_at', u'39366_at', u'39714_at',
-                                      u'39940_at', u'40069_at', u'40071_at', u'40113_at', u'40567_at',
-                                      u'40841_at', u'41388_at', u'41468_at', u'575_s_at', 'Status',
-                                      u'38237_at', u'34508_r_at', u'1166_at', u'40219_at', u'2075_s_at', u'32598_at']
+feature_selected_by_classification = [u'32166_at',
+                                      u'35177_at',
+                                      u'36192_at',
+                                      u'36627_at', u'37230_at',
+                                      u'38717_at',
+                                      u'39714_at',
+                                      u'40567_at',
+                                      u'41388_at',
+                                      u'32598_at',
+                                      u'40125_at',
+                                      u'41728_at', u'1768_s_at',
+                                      u'39711_at', u'36027_at', u'38269_at', u'1706_at',
+                                      '35749_at', '39044_s_at', '39054_at', '39147_g_at', '36814_at', '34792_at', '34315_at', '33397_at',
+                                      '41764_at', 'Status']
 
 
 
