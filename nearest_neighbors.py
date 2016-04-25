@@ -23,18 +23,15 @@ feature_selected_by_classification = [u'120_at', u'1736_at', u'1898_at', u'32109
                                       u'40841_at', u'41388_at', u'41468_at', u'575_s_at', 'Status']
 '''
 feature_selected_by_classification = [u'32166_at',
-                                      u'35177_at',
                                       u'36192_at',
-                                      u'36627_at', u'37230_at',
+                                      u'37230_at',
                                       u'38717_at',
-                                      u'39714_at',
                                       u'40567_at',
-                                      u'41388_at',
                                       u'32598_at',
                                       u'40125_at',
                                       u'41728_at', u'1768_s_at',
-                                      u'39711_at', u'36027_at', u'38269_at', u'1706_at',
-                                      '35749_at', '39044_s_at', '39054_at', '39147_g_at', '36814_at', '34792_at', '34315_at', '33397_at',
+                                      u'39711_at', u'38269_at', u'1706_at',
+                                      '35749_at', '39054_at', '39147_g_at', '36814_at', '34792_at', '34315_at',
                                       '41764_at', 'Status']
 
 
