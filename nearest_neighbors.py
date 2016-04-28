@@ -35,10 +35,41 @@ removed = ['1768_s_at', '41728_at', '37929_at', '39147_g_at', '36814_at', '38469
 
 labels = df["Status"].values
 del df['Status']
-'''
-for col in df.columns:
-    if col not in feature_selected_by_classification:
-        feature_selected_by_classification.append(col)
+
+def find_new_feature():
+    for col in df.columns:
+        if col not in feature_selected_by_classification:
+            feature_selected_by_classification.append(col)
+            try:
+                df2 = df[feature_selected_by_classification]
+                #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
+                features = df2[list(df2.columns)].values
+
+
+
+                kf = KFold(len(features), n_folds=7, shuffle=True)
+                classifier = KNeighborsClassifier(n_neighbors=1)
+                classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
+
+                means = []
+                for training, testing in kf:
+                    classifier.fit(features[training], labels[training])
+                    prediction = classifier.predict(features[testing])
+                    mean = np.mean(prediction == labels[testing])
+                    means.append(mean)
+                total_mean = np.mean(means)
+                if total_mean > 0.9855:
+                    print(total_mean, col)
+            except:
+                print 'error'
+            feature_selected_by_classification.remove(col)
+
+
+def remove_feature():
+    feature_selected_by_classification2 = list(feature_selected_by_classification)
+    for col in feature_selected_by_classification2:
+        feature_selected_by_classification.remove(col)
+
         try:
             df2 = df[feature_selected_by_classification]
             #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
@@ -57,62 +88,34 @@ for col in df.columns:
                 mean = np.mean(prediction == labels[testing])
                 means.append(mean)
             total_mean = np.mean(means)
-            if total_mean > 0.9855:
+            if total_mean > 0.95:
                 print(total_mean, col)
+                print '_______________________'
+            else:
+                print total_mean, col
         except:
             print 'error'
-        feature_selected_by_classification.remove(col)
-
-feature_selected_by_classification2 = list(feature_selected_by_classification)
-for col in feature_selected_by_classification2:
-    feature_selected_by_classification.remove(col)
-
-    try:
-        df2 = df[feature_selected_by_classification]
-        #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
-        features = df2[list(df2.columns)].values
+        feature_selected_by_classification.append(col)
 
 
 
-        kf = KFold(len(features), n_folds=7, shuffle=True)
-        classifier = KNeighborsClassifier(n_neighbors=1)
-        classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
-
-        means = []
-        for training, testing in kf:
-            classifier.fit(features[training], labels[training])
-            prediction = classifier.predict(features[testing])
-            mean = np.mean(prediction == labels[testing])
-            means.append(mean)
-        total_mean = np.mean(means)
-        if total_mean > 0.95:
-            print(total_mean, col)
-            print '_______________________'
-        else:
-            print total_mean, col
-    except:
-        print 'error'
-    feature_selected_by_classification.append(col)
-
-'''
-
-
-df2 = df[feature_selected_by_classification]
-#df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
-features = df2[list(df2.columns)].values
+def last_result():
+    df2 = df[feature_selected_by_classification]
+    #df = pd.read_pickle('processed_data/rank_classification_dataframe.pd')
+    features = df2[list(df2.columns)].values
 
 
 
-kf = KFold(len(features), n_folds=7, shuffle=True)
-classifier = KNeighborsClassifier(n_neighbors=1)
-classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
+    kf = KFold(len(features), n_folds=7, shuffle=True)
+    classifier = KNeighborsClassifier(n_neighbors=1)
+    classifier = Pipeline([('norm', StandardScaler()), ('knn', classifier)])
 
-means = []
-for training, testing in kf:
-    classifier.fit(features[training], labels[training])
-    prediction = classifier.predict(features[testing])
-    mean = np.mean(prediction == labels[testing])
-    means.append(mean)
-total_mean = np.mean(means)
-print total_mean
+    means = []
+    for training, testing in kf:
+        classifier.fit(features[training], labels[training])
+        prediction = classifier.predict(features[testing])
+        mean = np.mean(prediction == labels[testing])
+        means.append(mean)
+    total_mean = np.mean(means)
+    print total_mean
 
