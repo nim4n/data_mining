@@ -153,11 +153,17 @@ def main():
 
         best_choice = None
         max_count = 1
+        best_accourate = 0
         for col in new_features:
             count, accourate = new_features[col]
             if count > max_count:
                 best_choice = col
                 max_count = count
+                best_accourate = accourate
+            elif count == max_count:
+                if accourate > best_accourate:
+                    best_accourate = accourate
+                    best_choice = col
         print 'add this feature', best_choice, best_total_accourate, max_count
         remove_features_list = {}
         for _ in range(4):
@@ -176,11 +182,18 @@ def main():
 
         best_choice_to_remove = None
         max_count = 1
+        best_accourate = 0
         for col in remove_features_list:
             count, accourate = remove_features_list[col]
             if count > max_count:
                 best_choice_to_remove = col
                 max_count = count
+                best_accourate = accourate
+            elif count == max_count:
+                if accourate > best_accourate:
+                    best_accourate = accourate
+                    best_choice_to_remove = col
+
         print 'remove this feature', best_choice_to_remove, best_total_accourate, max_count
         if best_choice:
             feature_selected_by_classification.append(best_choice)
