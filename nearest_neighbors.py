@@ -26,8 +26,11 @@ feature_selected_by_classification = [u'120_at', u'1736_at', u'1898_at', u'32109
 feature_selected_by_classification = ['32166_at', '40567_at', '32598_at', '38269_at', '995_g_at',
                                       '39054_at', '34315_at', '37958_at', '1356_at', '1450_g_at',
                                       '40282_s_at', '39366_at', '41242_at', '41458_at']
+feature_selected_by_classification = [u'120_at', u'33222_at', u'36159_s_at', u'36192_at', u'36659_at', u'37230_at', u'40567_at',
+                                      u'40841_at', '32598_at', '37572_at', '39054_at', '39184_at', '41728_at', '39711_at',
+                                      '33215_g_at', '32223_at', '36814_at', '39147_g_at', '34315_at', '32575_at', '39168_at']
 
-removed = ['1768_s_at', '41728_at', '37929_at', '39147_g_at', '36814_at', '38469_at', '41764_at', '39711_at', '37230_at', '39634_at', '36958_at', '36192_at']
+
 
 
 
@@ -36,7 +39,9 @@ removed = ['1768_s_at', '41728_at', '37929_at', '39147_g_at', '36814_at', '38469
 labels = df["Status"].values
 del df['Status']
 
-def find_new_feature():
+
+def find_new_feature(accouracy):
+    new_features = {}
     for col in df.columns:
         if col not in feature_selected_by_classification:
             feature_selected_by_classification.append(col)
@@ -58,14 +63,17 @@ def find_new_feature():
                     mean = np.mean(prediction == labels[testing])
                     means.append(mean)
                 total_mean = np.mean(means)
-                if total_mean > 0.9855:
-                    print(total_mean, col)
+                if total_mean > accouracy:
+                    new_features[col] = [1, total_mean]
             except:
-                print 'error'
+                pass
             feature_selected_by_classification.remove(col)
+    return new_features
 
 
-def remove_feature():
+def remove_feature(accouracy):
+    accouracy -= 0.04
+    remove_list = {}
     feature_selected_by_classification2 = list(feature_selected_by_classification)
     for col in feature_selected_by_classification2:
         feature_selected_by_classification.remove(col)
@@ -88,15 +96,12 @@ def remove_feature():
                 mean = np.mean(prediction == labels[testing])
                 means.append(mean)
             total_mean = np.mean(means)
-            if total_mean > 0.95:
-                print(total_mean, col)
-                print '_______________________'
-            else:
-                print total_mean, col
-        except:
-            print 'error'
+            if total_mean >= accouracy:
+                remove_list[col] = total_mean
+        except Exception as e:
+            pass
         feature_selected_by_classification.append(col)
-
+    return remove_list
 
 
 def last_result():
@@ -117,5 +122,74 @@ def last_result():
         mean = np.mean(prediction == labels[testing])
         means.append(mean)
     total_mean = np.mean(means)
-    print total_mean
+    return total_mean
 
+
+def main():
+    check = True
+    best_total_accourate = 0
+    while check:
+        accouracy_means = []
+        for _ in range(4):
+            accouracy_means.append(last_result())
+        current_accouracy = np.mean(accouracy_means)
+        if current_accouracy > best_total_accourate:
+            best_total_accourate = current_accouracy
+        print current_accouracy
+        new_features = {}
+        for _ in range(4):
+            result = find_new_feature(best_total_accourate)
+            for col in result:
+                if col in new_features:
+                    count1, accourate1 = new_features[col]
+                    count2, accourate2 = result[col]
+                    count1 += 1
+                    if accourate2 > accourate1:
+                        new_features[col] = [count1, accourate2]
+                    else:
+                        new_features[col] = [count1, accourate1]
+                else:
+                    new_features[col] = result[col]
+
+        best_choice = None
+        max_count = 1
+        for col in new_features:
+            count, accourate = new_features[col]
+            if count > max_count:
+                best_choice = col
+                max_count = count
+        print 'add this feature', best_choice, best_total_accourate, max_count
+        remove_features_list = {}
+        for _ in range(4):
+            result = remove_feature(best_total_accourate)
+            for col in result:
+                if col in remove_features_list:
+                    count, accourate1 = remove_features_list[col]
+                    accourate2 = result[col]
+                    count += 1
+                    if accourate2 > accourate1:
+                        remove_features_list[col] = [count, accourate2]
+                    else:
+                        remove_features_list[col] = [count, accourate1]
+                else:
+                    remove_features_list[col] = [1, result[col]]
+
+        best_choice_to_remove = None
+        max_count = 1
+        for col in remove_features_list:
+            count, accourate = remove_features_list[col]
+            if count > max_count:
+                best_choice_to_remove = col
+                max_count = count
+        print 'remove this feature', best_choice_to_remove, best_total_accourate, max_count
+        if best_choice:
+            feature_selected_by_classification.append(best_choice)
+        if best_choice_to_remove:
+            feature_selected_by_classification.remove(best_choice_to_remove)
+        if not best_choice and not best_choice_to_remove:
+            check = False
+            print feature_selected_by_classification
+        print '____________________________________________________'
+
+
+main()
