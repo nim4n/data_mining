@@ -29,6 +29,8 @@ feature_selected_by_classification = ['32166_at', '40567_at', '32598_at', '38269
 feature_selected_by_classification = [u'120_at', u'33222_at', u'36159_s_at', u'36192_at', u'36659_at', u'37230_at', u'40567_at',
                                       u'40841_at', '32598_at', '37572_at', '39054_at', '39184_at', '41728_at', '39711_at',
                                       '33215_g_at', '32223_at', '36814_at', '39147_g_at', '34315_at', '32575_at', '39168_at']
+feature_selected_by_classification = [u'40567_at', '32598_at', '39711_at', '38057_at', '1531_at', '38482_at', 'AFFX-PheX-5_at', '38651_at', '37639_at', '41271_at', '39608_at', '36950_at', '38764_at', '33442_at', '38400_at', '37982_at', '1104_s_at', '32166_at', '41484_r_at', '39336_at', '40488_at']
+
 
 
 
@@ -41,6 +43,7 @@ del df['Status']
 
 
 def find_new_feature(accouracy):
+    accouracy += 0.002
     new_features = {}
     for col in df.columns:
         if col not in feature_selected_by_classification:
@@ -122,6 +125,7 @@ def last_result():
         mean = np.mean(prediction == labels[testing])
         means.append(mean)
     total_mean = np.mean(means)
+    print total_mean
     return total_mean
 
 
@@ -144,10 +148,7 @@ def main():
                     count1, accourate1 = new_features[col]
                     count2, accourate2 = result[col]
                     count1 += 1
-                    if accourate2 > accourate1:
-                        new_features[col] = [count1, accourate2]
-                    else:
-                        new_features[col] = [count1, accourate1]
+                    new_features[col] = [count1, (accourate1 + accourate2)]
                 else:
                     new_features[col] = result[col]
 
@@ -156,6 +157,7 @@ def main():
         best_accourate = 0
         for col in new_features:
             count, accourate = new_features[col]
+            accourate = accourate / count
             if count > max_count:
                 best_choice = col
                 max_count = count
@@ -174,9 +176,7 @@ def main():
                     accourate2 = result[col]
                     count += 1
                     if accourate2 > accourate1:
-                        remove_features_list[col] = [count, accourate2]
-                    else:
-                        remove_features_list[col] = [count, accourate1]
+                        remove_features_list[col] = [count, (accourate1 + accourate2)]
                 else:
                     remove_features_list[col] = [1, result[col]]
 
@@ -185,6 +185,7 @@ def main():
         best_accourate = 0
         for col in remove_features_list:
             count, accourate = remove_features_list[col]
+            accourate = accourate / count
             if count > max_count:
                 best_choice_to_remove = col
                 max_count = count
@@ -202,7 +203,10 @@ def main():
         if not best_choice and not best_choice_to_remove:
             check = False
             print feature_selected_by_classification
-        print '____________________________________________________'
+        print '________________________________________________________________'
+        print feature_selected_by_classification
+        print '________________________________________________________________'
 
 
-main()
+
+last_result()
