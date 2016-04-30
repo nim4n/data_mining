@@ -29,7 +29,12 @@ feature_selected_by_classification = ['32166_at', '40567_at', '32598_at', '38269
 feature_selected_by_classification = [u'120_at', u'33222_at', u'36159_s_at', u'36192_at', u'36659_at', u'37230_at', u'40567_at',
                                       u'40841_at', '32598_at', '37572_at', '39054_at', '39184_at', '41728_at', '39711_at',
                                       '33215_g_at', '32223_at', '36814_at', '39147_g_at', '34315_at', '32575_at', '39168_at']
-feature_selected_by_classification = [u'40567_at', '32598_at', '39711_at', '38057_at', '1531_at', '38482_at', 'AFFX-PheX-5_at', '38651_at', '37639_at', '41271_at', '39608_at', '36950_at', '38764_at', '33442_at', '38400_at', '37982_at', '1104_s_at', '32166_at', '41484_r_at', '39336_at', '40488_at']
+feature_selected_by_classification = [u'40567_at', '32598_at', '39711_at', '38057_at',
+                                      '1531_at', '38482_at', 'AFFX-PheX-5_at', '38651_at',
+                                      '37639_at', '41271_at', '39608_at', '36950_at',
+                                      '38764_at', '33442_at', '38400_at', '37982_at',
+                                      '1104_s_at', '32166_at', '41484_r_at', '39336_at',
+                                      '40488_at']
 
 
 
@@ -125,7 +130,6 @@ def last_result():
         mean = np.mean(prediction == labels[testing])
         means.append(mean)
     total_mean = np.mean(means)
-    print total_mean
     return total_mean
 
 
@@ -209,4 +213,4 @@ def main():
 
 
 
-last_result()
+main()
