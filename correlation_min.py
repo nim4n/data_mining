@@ -1,37 +1,13 @@
 import pandas as pd
 import numpy as np
-
+import pickle
 
 df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
 
-'''
-feature_selected_by_classification = [u'32166_at',
-                                      u'36192_at',
-                                      u'37230_at',
-                                      u'40567_at',
-                                      u'32598_at',
-                                      u'41728_at', u'1768_s_at',
-                                      u'39711_at', u'38269_at', u'1706_at',
-                                      '35749_at', '39054_at', '39147_g_at', '36814_at', '34315_at',
-                                      '41764_at', '37958_at', '38469_at']
-
-[u'120_at', u'33222_at', u'36159_s_at', u'36192_at', u'36659_at', u'37230_at', u'40567_at',
- u'40841_at', '32598_at', '37572_at', '39054_at', '39184_at', '41728_at', '39711_at',
-  '33215_g_at', '32223_at', '36814_at', '39147_g_at', '34315_at', '32575_at', '39168_at']
-
-'''
-feature_selected_by_classification = [u'120_at', u'1736_at', u'1898_at', u'32109_at', u'32133_at',
-                                      u'32166_at', u'32239_at', u'32314_g_at', u'32535_at', u'32780_at',
-                                      u'33222_at', u'33371_s_at', u'33405_at', u'33412_at', u'33850_at',
-                                      u'33891_at', u'34162_at', u'34407_at', u'34775_at', u'35177_at',
-                                      u'35742_at', u'35803_at', u'36040_at', u'36159_s_at', u'36192_at',
-                                      u'36627_at', u'36659_at', u'36792_at', u'37225_at', u'37230_at',
-                                      u'37366_at', u'37617_at', u'37630_at', u'37639_at', u'37716_at',
-                                      u'37958_at', u'38028_at', u'38047_at', u'38396_at', u'38717_at',
-                                      u'38772_at', u'39099_at', u'39243_s_at', u'39366_at', u'39714_at',
-                                      u'39940_at', u'40069_at', u'40071_at', u'40113_at', u'40567_at',
-                                      u'40841_at', u'41388_at', u'41468_at', u'575_s_at']
-
+pre_df = pd.read_pickle('processed_data/pre_feature_selection_dataframe.pd')
+del pre_df['Status']
+feature_selected_by_classification = list(pre_df.columns.values)
+print feature_selected_by_classification
 
 status = df['Status']
 del df['Status']
@@ -108,6 +84,9 @@ def main(min_corr, number_of_feature):
             try:
                 feature_selected_by_classification.remove(new_col)
                 feature_selected_by_classification.append(last_col)
+                filehandler = open("processed_data/feature_selected_by_classification", "wb")
+                pickle.dump(feature_selected_by_classification,filehandler)
+                filehandler.close()
                 internal_df.to_pickle('processed_data/min_correlation_dataframe.pd')
                 print feature_selected_by_classification
             except:
@@ -115,6 +94,9 @@ def main(min_corr, number_of_feature):
             check = False
         else:
             print 'candidate is accepted, better result is: ', new_sum
+            filehandler = open("processed_data/feature_selected_by_classification", "wb")
+            pickle.dump(feature_selected_by_classification,filehandler)
+            filehandler.close()
         if count % 10 == 0:
             print count
 
