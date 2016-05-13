@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import pickle
 from sklearn import random_projection
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -20,6 +19,7 @@ del df['Status']
 
 
 def find_new_feature(accouracy):
+    accouracy += 0.002
     new_features = {}
     for col in df.columns:
         if col not in feature_selected_by_classification:
@@ -123,10 +123,7 @@ def main():
                     count1, accourate1 = new_features[col]
                     count2, accourate2 = result[col]
                     count1 += 1
-                    if accourate2 > accourate1:
-                        new_features[col] = [count1, accourate2]
-                    else:
-                        new_features[col] = [count1, accourate1]
+                    new_features[col] = [count1, (accourate1 + accourate2)]
                 else:
                     new_features[col] = result[col]
 
@@ -135,6 +132,7 @@ def main():
         best_accourate = 0
         for col in new_features:
             count, accourate = new_features[col]
+            accourate = accourate / count
             if count > max_count:
                 best_choice = col
                 max_count = count
@@ -153,9 +151,7 @@ def main():
                     accourate2 = result[col]
                     count += 1
                     if accourate2 > accourate1:
-                        remove_features_list[col] = [count, accourate2]
-                    else:
-                        remove_features_list[col] = [count, accourate1]
+                        remove_features_list[col] = [count, (accourate1 + accourate2)]
                 else:
                     remove_features_list[col] = [1, result[col]]
 
@@ -164,6 +160,7 @@ def main():
         best_accourate = 0
         for col in remove_features_list:
             count, accourate = remove_features_list[col]
+            accourate = accourate / count
             if count > max_count:
                 best_choice_to_remove = col
                 max_count = count
@@ -174,9 +171,6 @@ def main():
                     best_choice_to_remove = col
 
         print 'remove this feature', best_choice_to_remove, best_total_accourate, max_count
-        print 'current best feature is:'
-        print feature_selected_by_classification
-        print '_______________________________________________________________'
         if best_choice:
             feature_selected_by_classification.append(best_choice)
         if best_choice_to_remove:
@@ -184,6 +178,10 @@ def main():
         if not best_choice and not best_choice_to_remove:
             check = False
             print feature_selected_by_classification
-        print '____________________________________________________'
+        print '________________________________________________________________'
+        print feature_selected_by_classification
+        print '________________________________________________________________'
+
+
 
 main()
