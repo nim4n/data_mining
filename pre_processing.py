@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-df = pd.read_pickle('processed_data/dataframe_prostate.pd')
+df = pd.read_pickle('processed_data/dataframe_lung.pd')
 counter = 0
 for column in df.columns:
     if column != 'Status':
@@ -19,5 +19,5 @@ for column in df.columns:
             df[column][~remove_outlier] = 20
 
 
-df.to_pickle('processed_data/pre_process_dataframe.pd')
+df.to_pickle('processed_data/pre_process_dataframe_lung.pd')
 
