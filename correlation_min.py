@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
-df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
+df = pd.read_pickle('processed_data/pre_process_dataframe_lung.pd')
 
 pre_df = pd.read_pickle('processed_data/pre_feature_selection_dataframe.pd')
 del pre_df['Status']
