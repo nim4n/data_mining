@@ -10,6 +10,7 @@ for column in df.columns:
         time.sleep(2)
         counter = 1
         print 'sleep'
+        df.to_pickle('processed_data/dataframe_lung.pd')
     if column != 'Status':
         #remove little expression
         remove_little_expression = df[column] < 20
