@@ -6,7 +6,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import KFold
 
 
-df = pd.read_pickle('processed_data/dataframe_by_pre_process.pd')
+df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
 labels = df["Status"].values
 
 kf = KFold(len(labels), n_folds=5, shuffle=True)

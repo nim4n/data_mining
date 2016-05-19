@@ -9,7 +9,7 @@ from sklearn.cross_validation import KFold
 from sklearn.feature_selection import VarianceThreshold
 
 #df = pd.read_pickle('processed_data/feature_by_shannon_dataframe.pd')
-df = pd.read_pickle('processed_data/dataframe_by_pre_process.pd')
+df = pd.read_pickle('processed_data/pre_process_dataframe.pd')
 
 filehandler = open("processed_data/feature_selected_by_classification", 'rb')
 feature_selected_by_classification = pickle.load(filehandler)
